@@ -6,15 +6,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	configPath string
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "alfa_agent",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Short: "Manage and run the Alfa Agent",
+	Long: `Alfa Agent is a command-line application for managing an Alfa Agent node.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Use it to initialize the agent configuration and database, enroll the agent
+with a master server, or run the agent service.`,
 }
 
 func Execute() {
@@ -25,7 +27,5 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().StringVarP(&configPath, "config", "c", "/etc/alfa/", "config file)")
 }
-
-
