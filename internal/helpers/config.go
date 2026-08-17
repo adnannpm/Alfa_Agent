@@ -10,10 +10,10 @@ import (
 
 type Config struct {
 	Auth struct{
-		Token 	string	`yaml:token`
-	} `yaml:auth`
+		Token 	string	`yaml:"token"`
+	} `yaml:"auth"`
 
-	HostIp	string `yaml:host_ip`
+	HostIp	string `yaml:"host_ip"`
 }
 
 func InsertToken(token, host string) error {
@@ -43,4 +43,24 @@ func InsertToken(token, host string) error {
 	}
 
 	return nil
+}
+
+func ValidateToken() bool {
+	path := filepath.Join(constants.CONFIG_PATH, "/config.yml")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return false
+	}
+
+	var config Config
+	err = yaml.Unmarshal(data, &config)
+	if err != nil {
+		return false
+	}
+
+	if config.Auth.Token == "" {
+		return false
+	}
+
+	return true
 }
