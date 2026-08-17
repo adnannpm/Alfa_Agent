@@ -4,7 +4,7 @@ import (
 	"alfa_agent/internal/config"
 	"fmt"
 	"github.com/spf13/cobra"
-	"log"
+	"alfa_agent/internal/log"
 	"os"
 	"path/filepath"
 )
@@ -15,13 +15,13 @@ var initCmd = &cobra.Command{
 	Long: `Prepare Alfa Agent for first use by generating the required configuration
 files and initializing its local database. Existing files are preserved.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("Initializing configuration...")
+		log.Info("Initializing configuration...")
 		if err := createDir(configPath, "Config"); err != nil {
-			log.Fatalln("Failed to inititalize config directory: ", err)
+			log.ErrorSpesific("Failed to inititalize config directory: ", err)
 		}
 
 		if err := writeFile(filepath.Join(configPath, "config.yml"), "config.yml", config.ConfigFile); err != nil {
-			log.Fatalln("Failed to initialize config file: %w", err)
+			log.ErrorSpesific("Failed to initialize config file: %w", err)
 		}
 	},
 }

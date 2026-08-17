@@ -6,7 +6,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"log"
+	"alfa_agent/internal/log"
 	"net/http"
 
 	"github.com/spf13/cobra"
@@ -27,10 +27,10 @@ sends the agent identity and version information to the master server.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := helpers.InsertToken(token, host)
 		if err != nil {
-			log.Fatalln(err)
+			log.Error(err)
 		}
 
-		log.Println("Susscessfuly insert to config!")
+		log.Info("Susscessfuly insert to config!")
 
 		endpoint := fmt.Sprintf("http://%s/api/token", host)
 		data := map[string]interface{}{
@@ -43,10 +43,10 @@ sends the agent identity and version information to the master server.`,
 		jsonData, _ := json.Marshal(data)
 
 		if _, err := http.Post(endpoint, "application/json", bytes.NewBuffer(jsonData)); err != nil {
-			log.Fatalln(err)
+			log.Error(err)
 		}
 
-		log.Println("Susscessfuly add new server to master")
+		log.Info("Susscessfuly add new server to master")
 	},
 }
 
